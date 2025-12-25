@@ -20,7 +20,24 @@ class TikTokConnectionWrapper extends EventEmitter {
         this.reconnectWaitMs = 1000;
         this.maxReconnectAttempts = 5;
 
-        this.connection = new WebcastPushConnection(uniqueId, options);
+        // this.connection = new WebcastPushConnection(uniqueId, options);
+
+        this.connection = new WebcastPushConnection(uniqueId, {
+            ...options, // Giữ lại các cấu hình sẵn có trong biến options
+            requestOptions: {
+                headers: {
+                    // Ép trình duyệt yêu cầu dữ liệu tiếng Việt
+                    'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7'
+                }
+            },
+            clientParams: {
+                // Tham số quan trọng để TikTok trả về ngôn ngữ hiển thị là tiếng Việt
+                "app_language": "vi-VN",
+                "webcast_language": "vi-VN",
+                "region": "VN"
+            }
+        });
+        
 
         this.connection.on('streamEnd', () => {
             this.log(`streamEnd event received, giving up connection`);
