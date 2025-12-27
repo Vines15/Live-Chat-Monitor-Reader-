@@ -1328,7 +1328,7 @@
       // Xử lý xóa tự động cho tin Join
       if (isTemporary) {
         // Hiệu ứng mờ dần mượt mà
-        div.style.transition = 'opacity 1s ease'; 
+        div.style.transition = 'opacity 2s ease'; 
         div.style.opacity = '1';
         
         setTimeout(() => {
@@ -1339,7 +1339,7 @@
               if (div.parentNode) div.remove(); // Xóa hẳn khỏi RAM
             }, 1000); 
           }
-        }, 6000); // 6 giây đứng yên
+        }, 10000); // 1 giây đứng yên
       }
     }
     
