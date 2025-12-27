@@ -627,7 +627,8 @@
 
     .action-item.temporary {
       opacity: 0.6;
-      font-style: italic;
+      /*font-style: italic;*/
+      color: #f39c12;
     }
 
     .action-item .avatar {
@@ -812,6 +813,7 @@
     // Mô tả: Main application logic for TikTok Live Chat Monitor
     // ==========================================
     // -------- CONFIGURATION (app.js) --------
+    
     /**
      * MAX_MESSAGES: Số lượng tin nhắn tối đa cho mỗi container
      * - Nếu = 0: Lưu toàn bộ tin nhắn (không giới hạn)
@@ -819,11 +821,12 @@
      * Áp dụng cho: Chat, Actions
      */
     // const MAX_MESSAGES = 0; // Đổi thành 0 để lưu toàn bộ tin nhắn
+    
     /**
      * MAX_GIFTS: Số lượng gift tối đa
      * - Nếu = 0: Lưu toàn bộ gifts
      * - Nếu > 0: Khi vượt quá, xóa 100 gifts cũ nhất
-     */
+     */    
     // const MAX_GIFTS = 0; // Đổi thành 0 để lưu toàn bộ gifts
 
     /**
@@ -840,9 +843,9 @@
     GIFTS:   { MAX: 0,   
               BATCH: 100 
              },
-    ACTIONS: { MAX: 5000, 
+    ACTIONS: { MAX: 3000, 
               BATCH: 1000 
-             } // Mục tiêu 10k dòng cho Like/Share/Join
+             } // Mục tiêu 3k dòng cho Like/Share/Join
       };
     
     // -------- KHAI BÁO CÁC PHẦN TỬ GIAO DIỆN (DOM ELEMENTS) (app.js) --------
@@ -934,6 +937,7 @@
     }
     // console.log(fullTimestamp()); 
     // Ví dụ: "21-12-2025 21:37:08"
+        
     /**
      * Cập nhật thống kê phòng live (viewers, likes, diamonds)
      * Hiển thị trên cùng 1 row thay vì column
