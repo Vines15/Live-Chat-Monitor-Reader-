@@ -1154,7 +1154,8 @@
         time: getCurrentTime(),
         nickname: data.nickname || data.displayName || data.uniqueId,
         userId: data.uniqueId || data.userId,
-        message: sanitize(text)
+       // message: sanitize(text)
+        message: text
       };
       div.innerHTML = `
         <div class="chat-head">
@@ -1501,9 +1502,36 @@
      * Tin nhắn chat mới từ viewers
      * CHỈ hiển thị trong cột CHAT
      */
-    connection.on('chat', (msg) => {
+    /*connection.on('chat', (msg) => {
       renderChat(msg, msg.comment);
     });
+    */
+
+    connection.on('chat', (msg) => {
+      // Lấy nội dung gốc
+      let chatContent = msg.comment;
+      
+      // Duyệt qua mảng emojis để lấy icon team và biểu tượng hệ thống
+      if (msg.emojis && msg.emojis.length > 0) {
+        msg.emojis.forEach(emoji => {
+          if (emoji.image && emoji.image.url) {
+            // Tạo thẻ img từ URL TikTok cung cấp
+            const imgTag = `<img src="${emoji.image.url}" style="height:20px; vertical-align:middle; margin:0 2px;">`;
+            
+            // Thay thế mã code hoặc nối thêm vào nội dung
+            if (chatContent.includes(emoji.name)) {
+              chatContent = chatContent.replaceAll(emoji.name, imgTag);
+            } else {
+              chatContent += imgTag;
+            }
+          }
+        });
+      }
+      
+      // Truyền thẳng nội dung đã có thẻ <img> vào hàm render
+      renderChat(msg, chatContent);
+    });
+
     
     /**
      * Event: gift
@@ -1533,7 +1561,7 @@
         // renderAction(msg, msg.label.replace('{0:user}', '').replace('likes', `${msg.likeCount} likes`), '#447dd4');
         // renderAction(msg, `liked the LIVE x${msg.likeCount}`, '#447dd4');
         // renderAction(msg, `❤️ x${msg.likeCount}`, '#ff4b5c');
-        renderAction(msg, `đã ❤️ x${msg.likeCount}`, '#447dd4', true); // temporary = true
+        renderAction(msg, `đã thả ❤️ x${msg.likeCount}`, '#447dd4'); // temporary = true
       }
     });
     
