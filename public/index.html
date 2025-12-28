@@ -1482,7 +1482,7 @@
      * Hiển thị khi có người join vào live
      * Sử dụng delay để tránh spam khi có nhiều người join cùng lúc
      */
-    /*let joinMsgDelay = 0;
+    let joinMsgDelay = 0;
     connection.on('member', (msg) => {
       let addDelay = 250;
       if (joinMsgDelay > 500) addDelay = 100;
@@ -1492,44 +1492,6 @@
         joinMsgDelay -= addDelay;        
         // renderAction(msg, 'joined', '#21b2c2', true); // temporary = true
         renderAction(msg, 'joined', '#f39c12', true); // temporary = true
-      }, joinMsgDelay);
-    });
-    */
-
-    /**
-     * Event: member
-     * Tự động thu thập nhãn (label) để làm file JSON mapping
-     */
-    let joinMsgDelay = 0;
-    const detectedLabels = new Set(); // Dùng Set để lưu các nhãn duy nhất
-
-    connection.on('member', (msg) => {
-      let addDelay = 250;
-      if (joinMsgDelay > 500) addDelay = 100;
-      if (joinMsgDelay > 1000) addDelay = 0;
-      joinMsgDelay += addDelay;
-
-      setTimeout(() => {
-        joinMsgDelay -= addDelay;
-
-        // 1. Lấy nhãn thực tế từ TikTok
-        const actionText = msg.label || 'joined';
-
-        // 2. Thu thập nhãn mới để mapping sau này
-        if (!detectedLabels.has(actionText)) {
-            detectedLabels.add(actionText);
-            
-            // In ra Console định dạng JSON để bạn copy
-            console.log("--- MAPPING SUGGESTION ---");
-            const mappingExport = {};
-            detectedLabels.forEach(label => mappingExport[label] = `${label}`);
-            console.log(JSON.stringify(mappingExport, null, 2));
-            console.log("--------------------------");
-        }
-
-        // 3. Hiển thị ra giao diện Actions
-        renderAction(msg, actionText, '#f39c12', true); 
-        
       }, joinMsgDelay);
     });
     
